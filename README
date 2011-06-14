@@ -1,1 +1,9 @@
 Apollo Project Phase 1
+
+REQUIREMENTS
+
+1) apache mods: mod_rewrite
+2) php extentions: php_fileinfo
+
+INSTALLATION
+
