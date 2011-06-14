@@ -1,12 +1,11 @@
 <?php
 	include 'config/core.php';
 
-	$filepath = 'c:\wamp\www\apollo\media\format\wmv\Wildlife.wmv';
+	$filepath = 'c:\wamp\www\apollo\media\format\mp3\Kalimba.mp3';
 	
 	try
 	{
-		$MediaMod = new MediaMod($filepath);
-		echo $MediaMod->mime_type;
+		$mod_media = new mod_media($filepath);
 	}
 	catch(Exception $e)
 	{
