@@ -18,5 +18,14 @@
 		{
 			echo $e->getMessage();
 		}
+		
+		try
+		{
+			include 'classes/' . $class . '.php';
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
 	}
 ?>
