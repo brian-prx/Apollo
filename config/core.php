@@ -12,4 +12,6 @@
 			echo $e->getMessage();
 		}
 	}
+	
+	define( 'MOD_DIR', 'modules/' );
 ?>

@@ -1,6 +1,9 @@
 <?php
 	class ModMedia extends ModController
 	{
+		public $name = 'Media';
+		public $description = 'Media Module';
+	
 		private $types = array();
 		
 		private $mime_types = array(

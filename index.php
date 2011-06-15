@@ -7,8 +7,12 @@
 		$PageRequest = new PageRequest( $_SERVER );
 		$PageRequest->render();
 	}
-	catch(Exception $e)
+	catch( Exception $e )
 	{
-		// Do something...
+		$layout_error_msg = $e->getMessage();
+		if ( file_exists( 'webroot/layouts/application_error.php' ) )
+			include 'webroot/layouts/application_error.php';
+		else
+			echo $e->getMessage();
 	}
 ?>

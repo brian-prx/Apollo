@@ -1,0 +1,40 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #8C898F;
+}
+
+div#wrapper {
+	margin-top: 1em;
+}
+
+div#header {
+
+}
+
+.panel {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px; /* future proofing */
+	-khtml-border-radius: 10px; /* for old Konqueror browsers */
+	background-color: #E6E6E6;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15px;
+	padding: 1em;
+}
+
+.shadow {
+	-moz-box-shadow: 5px 5px 5px #000000;
+	-webkit-box-shadow: 5px 5px 5px #000000;
+	box-shadow: 5px 5px 5px #000000;
+}
+
+
