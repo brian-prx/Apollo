@@ -5,7 +5,7 @@
 		private $object_path = null;
 		private $media_object = null;
 		private $mime_types = array(
-			'application' => array(
+			'media_application' => array(
 				'application/atom+xml',
 				'application/EDI-X12',
 				'application/EDIFACT',
@@ -23,7 +23,7 @@
 				'application/zip',
 				'application/x-gzip'
 			),
-			'audio' => array(
+			'media_audio' => array(
 				'audio/basic',
 				'audio/L24',
 				'audio/mp4',
@@ -36,7 +36,7 @@
 				'audio/vnd.wave',
 				'audio/webm'
 			),
-			'image' => array(
+			'media_image' => array(
 				'image/gif',
 				'image/jpeg',
 				'image/pjpeg',
@@ -45,13 +45,13 @@
 				'image/tiff',
 				'image/vnd.microsoft.icon'
 			),
-			'message' => array(
+			'media_message' => array(
 				'message/http',
 				'message/imdn+xml',
 				'message/partial',
 				'message/rfc822'
 			),
-			'model' => array(
+			'media_model' => array(
 				'model/example',
 				'model/iges',
 				'model/mesh',
@@ -60,7 +60,7 @@
 				'model/x3d+vrml',
 				'model/x3d+xml'
 			),
-			'multipart' => array(
+			'media_multipart' => array(
 				'multipart/mixed',
 				'multipart/alternative',
 				'multipart/related',
@@ -68,7 +68,7 @@
 				'multipart/signed',
 				'multipart/encrypted'
 			),
-			'text' => array(
+			'media_text' => array(
 				'text/cmd',
 				'text/css',
 				'text/csv',
@@ -77,7 +77,7 @@
 				'text/plain',
 				'text/xml'
 			),
-			'video' => array(
+			'media_video' => array(
 				'video/mpeg',
 				'video/mp4',
 				'video/ogg',
@@ -85,7 +85,7 @@
 				'video/webm',
 				'video/x-ms-wmv'
 			),
-			'vnd' => array(
+			'media_vnd' => array(
 				'application/vnd.oasis.opendocument.text',
 				'application/vnd.oasis.opendocument.spreadsheet',
 				'application/vnd.oasis.opendocument.presentation',
@@ -99,7 +99,7 @@
 				'application/vnd.mozilla.xul+xml',
 				'application/vnd.google-earth.kml+xml'
 			),
-			'x' => array(
+			'media_x' => array(
 				'application/x-www-form-urlencoded',
 				'application/x-dvi',
 				'application/x-latex',
@@ -111,7 +111,7 @@
 				'text/x-jquery-tmpl',
 				'application/x-javascript'
 			),
-			'x-pkcs' => array(
+			'media_x-pkcs' => array(
 				'application/x-pkcs12',
 				'application/x-pkcs12',
 				'application/x-pkcs7-certificates',
@@ -127,7 +127,7 @@
 		{
 			try
 			{
-				$finfo = new finfo(FILEINFO_MIME | FILEINFO_MIME_TYPE);
+				$finfo = new finfo( FILEINFO_MIME_TYPE );
 				if ( !$finfo ) throw new Exception('Could not determine file information. Check that php_fileinfo extension is enabled.');
 				else
 				{
@@ -150,7 +150,7 @@
 				{
 					if ( in_array ( $this->mime_type, $types ) )
 					{
-						// Do something...
+						$t = new $key();
 					}
 				}
 			}
