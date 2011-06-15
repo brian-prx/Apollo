@@ -10,7 +10,7 @@
 		public function __construct( $server )
 		{
 			$this->server = $server;
-			$this->loadModules();
+			parent::loadModules();
 		}
 		
 		private function parseRedirectUrl()
@@ -32,16 +32,34 @@
 			return $this->layout;
 		}
 		
+		private function beforeRender()
+		{
+			
+		}
+		
 		public function render()
 		{
+			$Modules = parent::getModules();
+			$layout_content = 'Content placeholder';
+			$layout_title = 'Default Title';
+			
+			parent::setDebugVar( $this->server );
+
 			try
 			{
-				$layout_title = "Change me";
-				$layout_kewords = "Change me";
-				$layout_description = "Change me";
-				$layout_content = "";
-				$layout_css = array('default');
-				
+				if ( is_object( $Modules['Auth'] ) )
+				{
+					if ( null === $Modules['Auth']->getAuthToken() )
+					{
+						$this->layout = 'login';
+						$layout_content = file_get_contents( 'views/auth/login.php' );
+					}
+					else
+					{
+						$layout_content = 'Authentication token: ' . $Modules['Auth']->getAuthToken();
+					}
+				}
+
 				if ( file_exists ( 'webroot/layouts/' . $this->layout . '.php' ) )
 					include 'webroot/layouts/' . $this->layout . '.php';
 				else
@@ -51,11 +69,6 @@
 			{
 				throw $e;
 			}
-		}
-		
-		public function getModules()
-		{
-			return parent::getModules();
 		}
 	}
 ?>

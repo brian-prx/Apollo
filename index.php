@@ -2,9 +2,18 @@
 	include 'config/core.php';
 	include 'config/db.php';
 
+	$PageRequest = new PageRequest( $_SERVER );
+	$Modules = $PageRequest->getModules();
+	
 	try
 	{
-		$PageRequest = new PageRequest( $_SERVER );
+		if ( is_object( $Modules['Auth'] ) )
+		{
+			if ( !empty( $_POST['username'] ) && !empty( $_POST['password'] ) )
+			{
+				$Modules['Auth']->authenticate( $_POST['username'], $_POST['password'] );
+			}
+		}
 		$PageRequest->render();
 	}
 	catch( Exception $e )
