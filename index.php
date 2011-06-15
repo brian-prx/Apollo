@@ -1,14 +1,11 @@
 <?php
 	include 'config/core.php';
+	include 'config/db.php';
 
-	$filepaths = array(
-		'c:\wamp\www\apollo\media\format\mp3\Kalimba.mp3'
-	);
-	
 	try
 	{
-		$ModMedia = new ModMedia();
-		$ModMedia->convertMimeTypes( $filepaths );
+		$PageRequest = new PageRequest( $_SERVER );
+		$PageRequest->render();
 	}
 	catch(Exception $e)
 	{

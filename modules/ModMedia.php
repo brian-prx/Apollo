@@ -136,14 +136,18 @@
 				else
 				{
 					foreach ( $filepaths as $filepath )
-						$this->types[] = $finfo->file( $filepath );
+					{
+						$mime_types[] = $finfo->file( $filepath );
+					}
 				}
 				
 				foreach ( $this->mime_types as $key => $types )
 				{
-					foreach ( $this->types as $mime_type )
-					if ( in_array ( $mime_type, $types ) )
-						$media_objects[] = new $key();
+					foreach ( $mime_types as $mime_type )
+					{
+						if ( in_array ( $mime_type, $types ) )
+							$this->media_objects[] = new $key();
+					}
 				}
 			}
 			catch (Exception $e)
