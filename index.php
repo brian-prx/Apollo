@@ -5,7 +5,7 @@
 	
 	try
 	{
-		$mod_media = new mod_media( $filepath );
+		$ModMedia = new ModMedia( $filepath );
 	}
 	catch(Exception $e)
 	{
