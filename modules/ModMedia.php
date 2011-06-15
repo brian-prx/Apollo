@@ -1,9 +1,8 @@
 <?php
-	class ModMedia implements IModule
+	class ModMedia extends ModController
 	{
-		private $mime_type = null;
-		private $object_path = null;
-		private $media_object = null;
+		private $types = array();
+		
 		private $mime_types = array(
 			'MediaApplication' => array(
 				'application/atom+xml',
@@ -123,7 +122,12 @@
 			)
 		);
 
-		public function __construct( $filepath )
+		public function __construct()
+		{
+			// Do somthing...
+		}
+		
+		public function convertMimeTypes( $filepaths = array() )
 		{
 			try
 			{
@@ -131,27 +135,15 @@
 				if ( !$finfo ) throw new Exception('Could not determine file information. Check that php_fileinfo extension is enabled.');
 				else
 				{
-					$this->object_path = $filepath;
-					$this->mime_type = $finfo->file( $filepath );
-					$this->convertMimeType();
+					foreach ( $filepaths as $filepath )
+						$this->types[] = $finfo->file( $filepath );
 				}
-			}
-			catch (Exception $e)
-			{
-				throw $e;
-			}
-		}
-		
-		private function convertMimeType()
-		{
-			try
-			{
+				
 				foreach ( $this->mime_types as $key => $types )
 				{
-					if ( in_array ( $this->mime_type, $types ) )
-					{
-						$t = new $key();
-					}
+					foreach ( $this->types as $mime_type )
+					if ( in_array ( $mime_type, $types ) )
+						$media_objects[] = new $key();
 				}
 			}
 			catch (Exception $e)
