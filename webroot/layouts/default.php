@@ -10,6 +10,11 @@
 				<h4>Version: 1.0</h4>
 			</div>
 			<div class="panel shadow">
+				<h3>Menu</h3>
+				<hr />
+				<?php echo $Modules['Html']->link( 'views/auth/logout.php', 'logout' ); ?>
+			</div>
+			<div class="panel shadow">
 				<h3>Modules</h3>
 				<hr />
 				<?php if ( $Modules ) echo $Modules['Html']->getList( $this->getModuleNames() ); ?>

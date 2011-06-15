@@ -2,24 +2,14 @@
 	class PageRequest extends PageController
 	{
 		private $server = null;
-		private $controller = null;
-		private $view = null;
-		private $params = array();
 		private $layout = 'default';
+		private $params = array();
+		private $url = null;
 
 		public function __construct( $server )
 		{
 			$this->server = $server;
 			parent::loadModules();
-		}
-		
-		private function parseRedirectUrl()
-		{
-			if ( empty ( $this->server['REDIRECT_URL'] ) )
-			{
-				throw new Exception( 'Server redirect url not defined.' );
-			}
-			$this->Components = explode( '/', $this->Server['REDIRECT_URL'] );
 		}
 		
 		public function setLayout( $layout )
@@ -35,6 +25,43 @@
 		private function beforeRender()
 		{
 			
+		}
+		
+		public function dispatch()
+		{
+			try
+			{
+				$this->baseUrl();
+				$url_components = explode( '/', $this->url );
+				$this->params['controller'] = $url_components[0];
+				$controller =& $this->__getController();
+			}
+			catch( Exception $e )
+			{
+				throw $e;
+			}
+		}
+		
+		private function baseUrl()
+		{
+			if ( ROOT_DIR )
+				$this->url = str_replace( ROOT_DIR, '', $this->server['REDIRECT_URL'] );
+			else
+				throw new Exception( 'ROOT_DIR is not defined.' );
+		}
+		
+		private function &__getController()
+		{
+			if ( class_exists( $this->params['controller'] ) )
+			{
+				$controller = new $this->params['controller']();
+				return $controller;
+			}
+			elseif ( empty( $this->params['controller'] ) )
+			{
+				return new Controller();
+			}
+			throw new Exception( 'Class ' . $this->params['controller'] . ' does not exists. Create it in the class/ directory.' );
 		}
 		
 		public function render()
