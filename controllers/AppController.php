@@ -29,6 +29,34 @@
 			
 		}
 		
+		/**
+		 * 
+		 * Index all objects
+		 * 
+		 */
+		public function index()
+		{
+			
+		}
+		
+		/**
+		 * 
+		 * Edit an object
+		 * 
+		 */
+		public function edit()
+		{
+			
+		}
+		
+		/**
+		 * Delete an object
+		 */
+		public function del()
+		{
+			
+		}
+		
 		// End region
 	}
 ?>

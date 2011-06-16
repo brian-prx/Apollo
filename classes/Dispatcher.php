@@ -103,6 +103,8 @@
 				// Load controller
 				$controller = $this->__getController();
 				
+				$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
+				
 				if ( is_object( $controller ) )
 				{
 					$result = call_user_func( $controller->__toString() . '::' . $this->params['function'] );
@@ -112,9 +114,9 @@
 					throw new Exception( 'Error loading controller: ' . $this->params['controller'] );
 				}
 				
-				if ( file_exists( 'views/' . $this->params['controller'] . '/' . $this->params['function'] . '.php' ) )
+				if ( file_exists( 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php' ) )
 				{
-					$layout_content = file_get_contents( 'views/' . $this->params['controller'] . '/' . $this->params['function'] . '.php' );
+					$layout_content = file_get_contents( 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php' );
 				}
 				
 				if ( file_exists ( 'webroot/layouts/' . $this->layout . '.php' ) )
@@ -175,6 +177,7 @@
 			$url_comp = explode( '/' , $this->url );
 			$this->params['controller'] = ( empty( $url_comp[0] ) ) ? '' : ucfirst( $url_comp[0] ) . 'Controller'; 
 			$this->params['function'] = ( empty( $url_comp[1] ) ) ? '' : $url_comp[1];
+			$this->params['con_path'] = strtolower( $url_comp[0] );
 		}
 
 		/**
