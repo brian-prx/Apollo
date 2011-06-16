@@ -3,7 +3,7 @@
 	{
 		// Region variables
 		
-		private $name = 'AppController';
+		public $name = 'App';
 		
 		// End region
 		
@@ -34,8 +34,9 @@
 		 * Index all objects
 		 * 
 		 */
-		public function index()
+		public function index( $name )
 		{
+			$sql = 'SELECT * FROM ' . $name;
 			
 		}
 		

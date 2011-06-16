@@ -3,7 +3,7 @@
 	{
 		// Region variables
 		
-		private $name = 'UsersController';
+		public $name = 'Users';
 		
 		// End region
 		
@@ -35,16 +35,6 @@
 		 * 
 		 */
 		public function del()
-		{
-			
-		}
-		
-		/**
-		 * 
-		 * Get a listing of users
-		 * 
-		 */
-		public function index()
 		{
 			
 		}

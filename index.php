@@ -1,8 +1,8 @@
 <?php
 	session_start();
 
-	include 'config/core.php';
 	include 'config/db.php';
+	include 'config/core.php';
 
 	$Dispatcher = new Dispatcher( $_SERVER['REQUEST_URI'] );
 

@@ -107,7 +107,7 @@
 				
 				if ( is_object( $controller ) )
 				{
-					$result = call_user_func( $controller->__toString() . '::' . $this->params['function'] );
+					$result = call_user_func( $controller->__toString() . '::' . $this->params['function'], $controller->name );
 				}
 				else
 				{
