@@ -1,4 +1,4 @@
-<h3>User Index</h3>
+<h3>Group Index</h3>
 <?php if ( !empty( $results ) && !empty( $fields ) ) { ?>
 <?php $i = 0; ?>
 <table>

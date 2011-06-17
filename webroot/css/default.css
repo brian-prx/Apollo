@@ -21,6 +21,7 @@ body {
 }
 
 table {
+	/*background: url("/apollo/webroot/images/blurry.jpg") no-repeat scroll 500px 59px transparent;*/
 	margin-left: auto;
 	margin-right: auto;
 	width: 95%;
@@ -31,19 +32,22 @@ th {
 	padding: 5px;
 }
 
-tr.trow:hover {
+tr {
+	border-bottom: 1px dotted #000;
+}
+
+tr.trow:hover td {
+	background: none repeat scroll 0 0 transparent;
 	cursor: pointer;
 }
 
-tr.altrow:hover {
+tr.altrow:hover td {
+	background: none repeat scroll 0 0 transparent;
 	cursor: pointer;
-}
-
-tr:hover {
-	background-color: #CCB4B4;
 }
 
 td {
+	background: url("/apollo/webroot/images/back.png") repeat scroll 0 0 transparent;
 	text-align: center;
 	padding: 5px;
 }
@@ -125,16 +129,16 @@ div.error p {
 }
 
 .trow {
-	background-color: #ffffcc;
+	/*background-color: #ffffcc;*/
 }
 
 .thead {
-	background-color: #CCB4B4;
+	/*background-color: #CCB4B4;*/
 	font-size: 1.2em;
 }
 
 .altrow {
-	background-color: #E4F7DC;
+	/*background-color: #E4F7DC;*/
 }
 
 /**
