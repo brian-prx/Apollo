@@ -17,16 +17,5 @@
 			$this->db_pass = $db_pass;
 		}
 		
-		public function getModules()
-		{
-			try
-			{
-				
-			}
-			catch( Exception $e )
-			{
-				throw $e;
-			}
-		}
 	}
 ?>

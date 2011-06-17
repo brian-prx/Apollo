@@ -16,7 +16,7 @@
 		 */
 		public function __toString()
 		{
-			return $this->name;
+			return $this->name . 'Controller';
 		}
 		
 		/**
@@ -37,7 +37,12 @@
 		public function index( $name )
 		{
 			$sql = 'SELECT * FROM ' . $name;
+			$result = mysql_query( $sql );
 			
+			if ( $result )
+				return $result;
+			else
+				throw new Exception( $name . 'Controller produced no result for the following function: index.' );
 		}
 		
 		/**

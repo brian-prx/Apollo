@@ -1,4 +1,10 @@
 <?php
+	/**
+	 * 
+	 * Dynamically load classes and interfaces
+	 * 
+	 * @param $class Class name
+	 */
 	function __autoload($class)
 	{
 		try
@@ -14,15 +20,25 @@
 		}
 	}
 	
+	/**
+	 * Establish the MySQL connection
+	 */
 	try
 	{
 		$db_conn = mysql_connect( $db_host, $db_user, $db_pass );
+		if ( !$db_conn ) die( 'Could not establish db connection.' );
 		mysql_select_db( $db_name, $db_conn );
 	}
 	catch ( Exception $e)
 	{
 		throw $e;
 	}
+	
+	/**
+	 * 
+	 * App constants
+	 * 
+	 */
 	define( 'MOD_DIR', 'modules/' );
 	define( 'ROOT_DIR', '/apollo/' );
 	
