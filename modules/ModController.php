@@ -3,7 +3,7 @@
 	{
 		// Region variables
 	
-		public $name = 'ModController';
+		public $name = 'Mod';
 		public $description = 'Parent Class';
 		
 		// End region

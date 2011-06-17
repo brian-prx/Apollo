@@ -1,0 +1,1 @@
+<?php echo 'Default landing page'; ?>

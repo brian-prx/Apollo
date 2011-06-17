@@ -18,8 +18,8 @@
 			<td><?php echo $value; ?></td>
 			<?php } ?>
 			<td>
-				<a href='<?php echo ROOT_DIR; ?>users/edit/<?php echo $result['id']; ?>'>edit</a>
-				<a href='<?php echo ROOT_DIR; ?>users/del/<?php echo $result['id']; ?>'>del</a>
+				<a href='<?php echo ROOT_DIR; ?>groups/edit/<?php echo $result['id']; ?>'>edit</a>
+				<a href='<?php echo ROOT_DIR; ?>groups/del/<?php echo $result['id']; ?>'>del</a>
 			</td>
 		</tr>
 		<?php } ?>

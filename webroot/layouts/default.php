@@ -11,22 +11,24 @@
 				<hr />
 				<p><?php echo date( 'Y-M-d H:i:s' ); ?></p>
 			</div>
-			<div class="panel shadow">
-				<h3>Menu</h3>
-				<hr />
-				<?php echo $this->modules['Html']->link( 'views/auth/logout.php', 'logout' ); ?>
+			<div class="menu panel shadow">
+				<a class="button" href="<?php echo ROOT_DIR; ?>" onclick="this.blur();"><span>home</span></a>
+				<a class="button" href="<?php echo ROOT_DIR; ?>users" onclick="this.blur();"><span>users</span></a>
+				<a class="button" href="<?php echo ROOT_DIR; ?>groups" onclick="this.blur();"><span>groups</span></a>
+				<a class="button" href="<?php echo ROOT_DIR; ?>pages" onclick="this.blur();"><span>pages</span></a>
+				<a class="button" href="<?php echo ROOT_DIR; ?>logout" onclick="this.blur();"><span>logout</span></a>
 			</div>
 			<div class="content panel shadow">
 				<?php echo $layout_content; ?>
 			</div>
 			<div class="footer panel shadow">
-				<?php echo 'Default footer'; ?>
+				<p>Apollo Project &copy; | <?php echo date('Y'); ?></p>
 			</div>
 			<?php if ( $this->debug ) { ?>
 			<div class="debugger panel shadow">
 				<h3>Debugger</h3>
 				<hr />
-				<?php $this->debug(); ?>
+				<span><?php $this->debug(); ?></span>
 			</div>
 			<?php } ?>
 		</div>

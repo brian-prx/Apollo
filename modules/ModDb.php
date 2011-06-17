@@ -1,6 +1,8 @@
 <?php
 	class ModDb extends ModController
 	{
+		// Region variables
+		
 		public $name = 'Db';
 		public $description = 'Database module';
 	
@@ -11,6 +13,16 @@
 		private $db_link = null;
 		private $db_result = null;
 		
+		// End region
+		
+		// Region public functions
+		
+		/**
+		 * 
+		 * MySQL ModDb constructor
+		 * 
+		 * @throws Exception
+		 */
 		public function __construct()
 		{
 			$link = mysql_connect( 'localhost', 'root', '' );
@@ -25,6 +37,11 @@
 			$this->db_link = $link;
 		}
 		
+		/**
+		 * 
+		 * Get the MySQL resource
+		 * 
+		 */
 		public function getDbLink()
 		{
 			return $this->db_link;
@@ -32,34 +49,7 @@
 		
 		/**
 		 * 
-		 * Get all records by name
-		 * 
-		 */
-		public static function getAllByName( $name )
-		{
-			$result = array();
-			$link = mysql_connect( 'localhost', 'root', '' );
-			
-			if ( false === $link )
-				throw new Exception( 'Error establishing connection to localhost.' );
-			if ( false === mysql_select_db( 'apollo' ) )
-				throw new Exception( 'Could not select db: apollo.' );
-
-			$mysql_safe = mysql_real_escape_string( 'SELECT * FROM ' . strtolower( $name ) );
-			$dresult = &mysql_query( $mysql_safe );
-			
-			return $dresult;
-			
-			
-			if ( $result )
-				return $result;
-			else
-				throw new Exception( $name . 'Controller produced no result for the following function: index()' );
-		}
-		
-		/**
-		 * 
-		 * Execute a raw MySQL statement
+		 * Execute a raw MySQL statement. 
 		 * 
 		 * @param string $sql
 		 */
@@ -67,14 +57,45 @@
 		{
 			try
 			{
-				$sql_safe = mysql_real_escape_string( $sql, $this->db_link );
-				return mysql_query( $sql_safe, $this->db_link );
+				$result = mysql_query( $sql, $this->db_link );
 			}
 			catch( Exception $e )
 			{
 				throw $e;
 			}
 			
+			return $result;
+		}
+		
+		/**
+		 * 
+		 * Update a record
+		 * 
+		 * @param string $name
+		 * @param array $params
+		 */
+		public function update( $name, $params )
+		{
+			$sql = 'UPDATE ' . strtolower( $name ) . ' SET ';
+			foreach ( $params as $field => $value )
+			{
+				if ( $field == 'id' ) continue;
+				if ( !empty( $value ) ) $sql .= $field . '=' . $value . ', ';
+			}
+			$sql = substr( $sql, 0, -2);
+			
+			$sql .= ' WHERE id=' . $params['id'] . ';';
+			
+			try
+			{
+				$db_result = $this->query( $sql );
+			}
+			catch( Exception $e )
+			{
+				throw $e;
+			}
+			
+			return $sql;
 		}
 		
 		/**
@@ -82,6 +103,7 @@
 		 * Get table field names
 		 * 
 		 * @param string $name
+		 * @throws Exception $e
 		 */
 		public function getFields( $name )
 		{
@@ -96,7 +118,7 @@
 				{
 					while ( $row = mysql_fetch_array( $result ) )
 					{
-						$fields[] = $row;
+						$fields[] = $row['Field'];
 					}
 				}
 			}

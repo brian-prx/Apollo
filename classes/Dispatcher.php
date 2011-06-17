@@ -105,15 +105,34 @@
 			
 			try
 			{
+				$route = $this->modules['Router']->iterate( $this->url );
+				
+				
+				if ( !empty( $route ) )
+				{
+					$this->params['controller'] = $route['controller'] . 'Controller';
+					$this->params['function'] = $route['function'];
+					$this->params['params'] = $route['params'];
+				}
+				
 				// Load controller
 				$controller = $this->__getController();
 				
-				// Is a function set? If not, set to index()
-				$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
-				
 				if ( is_object( $controller ) )
 				{
-					$results = call_user_func( $controller->__toString() . '::' . $this->params['function'], $controller->name );
+					// Load form data
+					if ( !empty( $_POST ) ) $controller->setFormData( $_POST );
+					
+					// Is a function set? If not, set to index()
+					$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
+					
+					// Execute the controller's function
+					$results = $controller->{$this->params['function']}( $this->params['params'] ); $this->setDebugVar($this->params);
+					
+					if ( isset( $results['content'] ) ) $layout_title = base64_decode( $results['content'] );
+					if ( isset( $results['title'] ) ) $layout_title = $results['title'];
+					
+					// Get the table header fields
 					$fields = $this->modules['Db']->getFields( $controller->name );
 
 					if ( !$results )
@@ -127,10 +146,10 @@
 				/**
 				 * Load the view file content
 				 */
-				if ( file_exists( 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php' ) )
+				if ( file_exists( 'views/' . $controller->name . '/' . $this->params['function'] . '.php' ) )
 				{
 					ob_start();
-					include 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php';	
+					include 'views/' . $controller->name . '/' . $this->params['function'] . '.php';	
 					$layout_content = ob_get_clean();
 				}
 				else 
@@ -197,7 +216,7 @@
 			$url_comp = explode( '/' , $this->url );
 			$this->params['controller'] = ( empty( $url_comp[0] ) ) ? '' : ucfirst( $url_comp[0] ) . 'Controller'; 
 			$this->params['function'] = ( empty( $url_comp[1] ) ) ? '' : $url_comp[1];
-			$this->params['con_path'] = strtolower( $url_comp[0] );
+			$this->params['params'] = ( empty( $url_comp[2] ) ) ? array() : $url_comp[2];
 		}
 
 		/**
@@ -212,6 +231,8 @@
 				$this->url = str_replace( strtolower( ROOT_DIR ), '', strtolower( $this->url ) );
 			else
 				throw new Exception( 'ROOT_DIR is not defined. Set in config/core.php.' );
+				
+			if ( empty( $this->url ) ) $this->url = '/';
 		}
 		
 		/**

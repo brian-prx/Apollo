@@ -4,7 +4,12 @@
 		// Region variables
 		
 		public $name = 'App';
+		
+		private $form_data = array();
+		
 		private $vars = array();
+		
+		protected $modules = array();
 		
 		// End region
 		
@@ -12,12 +17,12 @@
 		
 		/**
 		 * 
-		 * Returns a string representation of the class
+		 * AppController constructor
 		 * 
 		 */
-		public function __toString()
+		public function __construct()
 		{
-			return $this->name . 'Controller';
+			$this->modules = ModController::loadModules();
 		}
 		
 		/**
@@ -36,11 +41,14 @@
 		 * 
 		 * @param string $controller
 		 */
-		public function index( $controller )
+		public function index()
 		{
 			$results = array();
-			$db_results = ModDb::getAllByName( $controller );
-			
+
+			$sql = 'SELECT * FROM ' . strtolower( $this->name ) . ';';
+
+			$db_results = $this->modules['Db']->query( $sql );
+
 			while ( $row = mysql_fetch_assoc( $db_results ) )
 			{
 				$results[] = $row;
@@ -53,10 +61,25 @@
 		 * 
 		 * Edit an object
 		 * 
+		 * @param array $params
 		 */
-		public function edit()
+		public function edit( $params )
 		{
-			return true;
+			if ( empty( $this->form_data ) )
+			{
+				$result = null;
+				
+				$sql = 'SELECT * FROM ' . strtolower( $this->name ) . ' WHERE id=' . $params .';';
+				
+				$db_results = $this->modules['Db']->query( $sql );
+				
+				$row = mysql_fetch_assoc( $db_results );
+	
+				$result = $row;
+	
+				return $result;
+			}
+			return $this->modules['Db']->update( $this->name, $this->form_data );
 		}
 		
 		/**
@@ -88,6 +111,21 @@
 		public function getVar( $name )
 		{
 			return $this->vars[$name];
+		}
+		
+		// End region
+		
+		// Region private function
+		
+		/**
+		 * 
+		 * Set data retrieved from form
+		 * 
+		 * @param array $data
+		 */
+		public function setFormData( $data )
+		{
+			$this->form_data = $data;
 		}
 		
 		// End region

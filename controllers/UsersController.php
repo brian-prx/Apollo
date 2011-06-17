@@ -6,9 +6,5 @@
 		public $name = 'Users';
 		
 		// End region
-		
-		// Region public functions
-		
-		// End Region
 	}
 ?>
