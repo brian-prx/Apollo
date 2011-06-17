@@ -1,6 +1,4 @@
 <?php
-	session_start();
-
 	include 'config/db.php';
 	include 'config/core.php';
 
@@ -12,7 +10,7 @@
 	}
 	catch( Exception $e )
 	{
-		$layout_title = 'Apollo error';
+		$layout_title = 'Apollo Error';
 		$layout_error_msg = $e->getMessage();
 		if ( file_exists( 'webroot/layouts/application_error.php' ) )
 			include 'webroot/layouts/application_error.php';

@@ -26,6 +26,11 @@
 		{
 			$this->url = $url;
 			$this->modules = ModController::loadModules();
+			if ( is_object( $this->modules['Db'] ) )
+			{
+				
+			}
+			
 			$this->baseUrl();
 			$this->parseUrl();
 		}
@@ -96,34 +101,44 @@
 			$this->beforeRender();
 			
 			$layout_title = 'Default Title';
-			$layout_content = 'Placeholder content';
+			$layout_content = 'Default Content';
 			
 			try
 			{
 				// Load controller
 				$controller = $this->__getController();
 				
+				// Is a function set? If not, set to index()
 				$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
 				
 				if ( is_object( $controller ) )
 				{
-					$result = call_user_func( $controller->__toString() . '::' . $this->params['function'], $controller->name );
-					if ( $result )
-					{
-						
-					}
-					else throw new Exception( 'Controller ' . $controller->name . ' produced an error.' );
+					$results = call_user_func( $controller->__toString() . '::' . $this->params['function'], $controller->name );
+					$fields = $this->modules['Db']->getFields( $controller->name );
+
+					if ( !$results )
+						throw new Exception( $controller->name . 'Controller produced no results.' );
 				}
 				else
 				{
-					throw new Exception( 'Error loading controller: ' . $this->params['controller'] );
+					throw new Exception( 'Error loading ' . $this->params['controller'] . 'Controller.' );
 				}
 				
+				/**
+				 * Load the view file content
+				 */
 				if ( file_exists( 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php' ) )
 				{
-					$layout_content = file_get_contents( 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php' );
+					ob_start();
+					include 'views/' . $this->params['con_path'] . '/' . $this->params['function'] . '.php';	
+					$layout_content = ob_get_clean();
 				}
+				else 
+					throw new Exception( 'Could not load view file for ' . $this->params['function'] . '.');
 				
+				/**
+				 * Include the layout
+				 */
 				if ( file_exists ( 'webroot/layouts/' . $this->layout . '.php' ) )
 					include 'webroot/layouts/' . $this->layout . '.php';
 				else

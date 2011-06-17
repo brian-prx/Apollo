@@ -4,6 +4,7 @@
 		// Region variables
 		
 		public $name = 'App';
+		private $vars = array();
 		
 		// End region
 		
@@ -26,23 +27,26 @@
 		 */
 		public function add()
 		{
-			
+			return true; // Testing
 		}
-		
+
 		/**
 		 * 
-		 * Index all objects
+		 * Get all objects
 		 * 
+		 * @param string $controller
 		 */
-		public function index( $name )
+		public function index( $controller )
 		{
-			$sql = 'SELECT * FROM ' . $name;
-			$result = mysql_query( $sql );
+			$results = array();
+			$db_results = ModDb::getAllByName( $controller );
 			
-			if ( $result )
-				return $result;
-			else
-				throw new Exception( $name . 'Controller produced no result for the following function: index.' );
+			while ( $row = mysql_fetch_assoc( $db_results ) )
+			{
+				$results[] = $row;
+			}
+			
+			return $results;
 		}
 		
 		/**
@@ -52,7 +56,7 @@
 		 */
 		public function edit()
 		{
-			
+			return true;
 		}
 		
 		/**
@@ -60,7 +64,30 @@
 		 */
 		public function del()
 		{
-			
+			return true;
+		}
+		
+		/**
+		 * 
+		 * Set an application variable
+		 * 
+		 * @param string $name
+		 * @param mixed $var
+		 */
+		public function setVar( $name, $var )
+		{
+			$this->vars[$name] = $var;
+		}
+		
+		/**
+		 * 
+		 * Get an application variable
+		 * 
+		 * @param string $name
+		 */
+		public function getVar( $name )
+		{
+			return $this->vars[$name];
 		}
 		
 		// End region

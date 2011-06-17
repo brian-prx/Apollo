@@ -10,14 +10,64 @@ body {
 	background-color: #8C898F;
 }
 
+table {
+	width: 100%;
+	padding: 1em;
+	border-spacing: 0;
+}
+
+td {
+	text-align: center;
+}
+
 div#wrapper {
 	margin-top: 1em;
 }
 
-div#header {
-
+div.header p {
+	font-size: .6em;
 }
 
+div.content {
+	background-color: #ccffbb;
+}
+
+div.content h3 {
+	padding: 1em;	
+}
+
+div.row {
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+}
+
+div.col {
+	margin-left: auto;
+	margin-right: auto;
+	margin: 5px;
+	float: left;
+}
+
+div.debugger {
+	background-color: #ffccee;
+}
+
+div.debugger h3 {
+	padding: 1em;
+}
+
+div.error {
+	background-color: #ffff88;
+}
+
+div.error h2 {
+	color: #ff3333;
+}
+
+div.error p {
+	padding: 1em;
+}
 .panel {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -37,4 +87,14 @@ div#header {
 	box-shadow: 5px 5px 5px #000000;
 }
 
+.trow {
+	background-color: #ffffcc;
+}
 
+.thead {
+	background-color: #fff;
+}
+
+.altrow {
+	background-color: #eeffff;
+}

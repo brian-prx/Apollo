@@ -10,6 +10,12 @@
 		
 		// Public functions
 		
+		/**
+		 * 
+		 * Load all modules
+		 * 
+		 * @throws Exception
+		 */
 		public static function loadModules()
 		{
 			if ( $dh = opendir( MOD_DIR ) )
@@ -26,6 +32,21 @@
 				else return false;
 			}
 			else throw new Exception( 'Could not open MOD_DIR. Check permissions of ' . MOD_DIR . '. ' );
+		}
+		
+		/**
+		 * 
+		 * Load module by class name
+		 * 
+		 * @param string $name
+		 */
+		public static function loadModuleByName( $name )
+		{
+			if ( !empty( $name ) )
+			{
+				// Do something...
+			}
+			return false;
 		}
 		
 		public function debug()
