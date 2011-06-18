@@ -20,7 +20,7 @@
 		{
 			if ( $dh = opendir( MOD_DIR ) )
 			{
-				$skip = array( '.', '..', 'ModController.php' );
+				$skip = array( '.', '..', 'ModController.php', 'ModMedia.php' );
 				while ( false !== ( $file = readdir( $dh ) ) )
 				{
 					if ( in_array( $file, $skip ) ) continue;

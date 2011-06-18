@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title><?php echo $layout_title; ?></title>
-		<link rel='stylesheet' type='text/css' href='<?php echo ROOT_DIR; ?>webroot/css/default.css' />
+		<link rel='stylesheet' type='text/css' href='<?php echo ROOT_DIR; ?>webroot/css/default.php' />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -13,9 +13,6 @@
 			</div>
 			<div class="menu panel shadow">
 				<a class="button" href="<?php echo ROOT_DIR; ?>" onclick="this.blur();"><span>home</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>users" onclick="this.blur();"><span>users</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>groups" onclick="this.blur();"><span>groups</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>pages" onclick="this.blur();"><span>pages</span></a>
 				<a class="button" href="<?php echo ROOT_DIR; ?>logout" onclick="this.blur();"><span>logout</span></a>
 			</div>
 			<div class="error panel shadow">

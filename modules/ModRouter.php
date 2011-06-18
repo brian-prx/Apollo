@@ -4,7 +4,7 @@
 		// Region variables
 		
 		public $name = 'Router';
-		public $desctription = 'Router Module';
+		public $description = 'Router Module';
 		
 		public $routes = array(
 			'/' => array(

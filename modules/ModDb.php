@@ -6,10 +6,11 @@
 		public $name = 'Db';
 		public $description = 'Database module';
 	
-		private $db_host = null;
-		private $db_name = null;
-		private $db_user = null;
-		private $db_pass = null;
+		const db_host = 'localhost';
+		const db_name = '';
+		const db_user = 'root';
+		const db_pass = null;
+		
 		private $db_link = null;
 		private $db_result = null;
 		
@@ -67,6 +68,20 @@
 			return $result;
 		}
 		
+		public static function rawQuery( $sql )
+		{
+			$tmp_db_conn = mysql_connect( ModDb::db_host, ModDb::db_user, '' );
+			
+			if ( !$tmp_db_conn ) throw new Exception( 'Could not establishing MySQL connection to ' . ModDb::db_host . '.' );
+			
+			if ( false === mysql_select_db( 'apollo' ) )
+				throw new Exception( 'Could not select db: apollo.' );
+			
+			$results = mysql_query( $sql );	
+			
+			return $results;
+		}
+		
 		/**
 		 * 
 		 * Update a record
@@ -82,7 +97,7 @@
 				if ( $field == 'id' ) continue;
 				if ( !empty( $value ) ) $sql .= $field . '=' . $value . ', ';
 			}
-			$sql = substr( $sql, 0, -2);
+			$sql = substr( $sql, 0, -2); // Remove the trailing ", "
 			
 			$sql .= ' WHERE id=' . $params['id'] . ';';
 			

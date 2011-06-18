@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title><?php echo $layout_title; ?></title>
-		<link rel='stylesheet' type='text/css' href='<?php echo ROOT_DIR; ?>webroot/css/default.css' />
+		<link rel='stylesheet' type='text/css' href='<?php echo ROOT_DIR; ?>webroot/css/default.php' />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -12,11 +12,18 @@
 				<p><?php echo date( 'Y-M-d H:i:s' ); ?></p>
 			</div>
 			<div class="menu panel shadow">
-				<a class="button" href="<?php echo ROOT_DIR; ?>" onclick="this.blur();"><span>home</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>users" onclick="this.blur();"><span>users</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>groups" onclick="this.blur();"><span>groups</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>pages" onclick="this.blur();"><span>pages</span></a>
-				<a class="button" href="<?php echo ROOT_DIR; ?>logout" onclick="this.blur();"><span>logout</span></a>
+				<?php 
+					$MainMenu = $this->modules['Menu']->getMenu( 'apollo_main' );
+					
+					if ( is_object( $MainMenu ) )
+					{
+						foreach ( $MainMenu->items as $item )
+						{
+							if ( $item['hidden'] ) continue;
+							echo "<a class='button' href='" . ROOT_DIR . $item['path'] . "' on.click='this.blur();'><span>" . $item['link_text'] . "</span></a>";
+						}
+					}
+				?>
 			</div>
 			<div class="content panel shadow">
 				<?php echo $layout_content; ?>

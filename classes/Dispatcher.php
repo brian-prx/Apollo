@@ -26,6 +26,10 @@
 		{
 			$this->url = $url;
 			$this->modules = ModController::loadModules();
+			$this->modules['Menu']->init();
+			
+			$this->setDebugVar( $this->modules['Menu']->getMenu( 'apollo_main' ) );
+			
 			if ( is_object( $this->modules['Db'] ) )
 			{
 				
@@ -107,7 +111,6 @@
 			{
 				$route = $this->modules['Router']->iterate( $this->url );
 				
-				
 				if ( !empty( $route ) )
 				{
 					$this->params['controller'] = $route['controller'] . 'Controller';
@@ -127,7 +130,7 @@
 					$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
 					
 					// Execute the controller's function
-					$results = $controller->{$this->params['function']}( $this->params['params'] ); $this->setDebugVar($this->params);
+					$results = $controller->{$this->params['function']}( $this->params['params'] ); $this->setDebugVar($this->modules);
 					
 					if ( isset( $results['content'] ) ) $layout_title = base64_decode( $results['content'] );
 					if ( isset( $results['title'] ) ) $layout_title = $results['title'];
