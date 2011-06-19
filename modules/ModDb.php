@@ -14,6 +14,8 @@
 		private $db_link = null;
 		private $db_result = null;
 		
+		protected $rec_cnt = null;
+		
 		// End region
 		
 		// Region public functions
@@ -68,6 +70,13 @@
 			return $result;
 		}
 		
+		/**
+		 * 
+		 * Issue raw sql query
+		 * 
+		 * @param string $sql
+		 * @throws Exception
+		 */
 		public static function rawQuery( $sql )
 		{
 			$tmp_db_conn = mysql_connect( ModDb::db_host, ModDb::db_user, '' );
@@ -80,6 +89,39 @@
 			$results = mysql_query( $sql );	
 			
 			return $results;
+		}
+		
+		/**
+		 * 
+		 * Insert a new record
+		 * 
+		 * @param string $table
+		 * @param array $data
+		 */
+		public function insert( $table, $data )
+		{
+		  $fields = $values = '';
+		  $results = array();
+		  
+		  foreach ( $data as $field => $val )
+		  {
+		    $fields .= '`' . $field . '`,';
+		    if ( is_numeric( $val ) )
+		      $values .= $val . ',';
+		     else
+		       $values .= '\'' . $val . '\',';
+		  }
+		  
+		  $sql = 'INSERT INTO ' . $table . ' ( ' . substr( $fields, 0, -1 ) . ' ) VALUES (' . substr( $values, 0, -1 ) . ');';
+
+		  $result = $this->query( $sql );
+		  
+		  if ( empty( $result ) ) throw new Exception( 'Could not insert new record into ' . $table . '.' );
+		  
+		  //while ( $row = mysql_fetch_assoc( $result ) )
+  		  //  $results[] = $row;
+  		    
+  		  return 'Record successfully inserted.';
 		}
 		
 		/**
@@ -113,6 +155,15 @@
 			return $sql;
 		}
 		
+		public function delete( $name, $id )
+		{
+		  $sql = 'DELETE FROM ' . $name . ' WHERE id=' . $id;
+		  
+		  $this->db_result = $this->query( $sql );
+		  
+		  return $this->db_result;
+		}
+		
 		/**
 		 * 
 		 * Get table field names
@@ -136,6 +187,7 @@
 						$fields[] = $row['Field'];
 					}
 				}
+				else throw new Exception( 'Could not retrieve fields for object of type ' . $name );
 			}
 			catch( Exception $e )
 			{
@@ -143,6 +195,52 @@
 			}
 			
 			return $fields;
+		}
+		
+		/**
+		 * 
+		 * Get record count of last query
+		 * 
+		 */
+		public function getRecordCount()
+		{
+			//return mysql_num_rows( $this->db_link );
+		}
+		
+		/**
+		 * 
+		 * Return properties of a table
+		 * 
+		 * @param string $name
+		 */
+		public function describeTable( $name )
+		{
+		  $results = array();
+		  
+	      $sql = 'DESCRIBE `' . $name . '`';
+	      $result = $this->query( $sql, $this->db_link );
+
+	      while ( $row = mysql_fetch_assoc( $result ) )
+	        $results[] = $row;
+	        
+	      if ( $results ) return $results;
+	      else throw new Exception( 'Could not describe table: ' . $name );
+		}
+		
+		/**
+		 * 
+		 * Check if field is null allowed
+		 * 
+		 * @param string $name
+		 */
+		public function isNullAllow( $table, $name )
+		{
+		  $fields = $this->describeTable( $table );
+
+		  foreach ( $fields as $field ) {
+		    if ( $field['Field'] == $name )
+		      return ( $field['Null'] == 'NO' ) ? false : true;
+		  }
 		}
 	}
 ?>

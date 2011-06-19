@@ -1,6 +1,5 @@
 <h3>User Index</h3>
 <?php if ( !empty( $results ) && !empty( $fields ) ) { ?>
-<?php $i = 0; ?>
 <table>
 	<thead>
 		<tr class='thead'>
@@ -12,8 +11,7 @@
 	</thead>
 	<tbody>
 		<?php foreach ( $results as $result ) { ?>
-		<?php $class = ( ++$i % 2 == 0 ) ? 'trow' : 'altrow'; ?>
-		<tr class='<?php echo $class?>'>
+		<tr>
 			<?php foreach ( $result as $key => $value ) { ?>
 			<td><?php echo $value; ?></td>
 			<?php } ?>
@@ -25,4 +23,6 @@
 		<?php } ?>
 	</tbody>
 </table>
+<p class='centered'><?php echo 'Records: ' . $recs; ?></p>
 <?php } ?>
+<a href='<?php echo ROOT_DIR?>users/add' onclick='this.blur();'>new user</a>

@@ -27,9 +27,7 @@
 			$this->url = $url;
 			$this->modules = ModController::loadModules();
 			$this->modules['Menu']->init();
-			
-			$this->setDebugVar( $this->modules['Menu']->getMenu( 'apollo_main' ) );
-			
+
 			if ( is_object( $this->modules['Db'] ) )
 			{
 				
@@ -61,25 +59,6 @@
 		
 		/**
 		 * 
-		 * Url redirection
-		 * 
-		 * @param string $url
-		 */
-		public function redirect( $url )
-		{
-			try
-			{
-				if ( $url !== null )
-					header('Location: ' . $url );
-			}
-			catch( Exception $e )
-			{
-				throw $e;
-			}
-		}
-		
-		/**
-		 * 
 		 * Callback executed before rendering a page.
 		 * 
 		 */
@@ -104,20 +83,19 @@
 		{
 			$this->beforeRender();
 			
+			include 'config/routes.php';
+			
+			if ( $route = $this->modules['Router']->search( $this->url, $routes ) ) {
+				$this->params['controller'] = $route['controller'] . 'Controller';
+				$this->params['function'] = $route['function'];
+				$this->params['params'] = $route['params'];
+			}
+			
 			$layout_title = 'Default Title';
 			$layout_content = 'Default Content';
 			
 			try
 			{
-				$route = $this->modules['Router']->iterate( $this->url );
-				
-				if ( !empty( $route ) )
-				{
-					$this->params['controller'] = $route['controller'] . 'Controller';
-					$this->params['function'] = $route['function'];
-					$this->params['params'] = $route['params'];
-				}
-				
 				// Load controller
 				$controller = $this->__getController();
 				
@@ -130,16 +108,24 @@
 					$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
 					
 					// Execute the controller's function
-					$results = $controller->{$this->params['function']}( $this->params['params'] ); $this->setDebugVar($this->modules);
+					$results = $controller->{$this->params['function']}( $this->params['params'] );
 					
 					if ( isset( $results['content'] ) ) $layout_title = base64_decode( $results['content'] );
 					if ( isset( $results['title'] ) ) $layout_title = $results['title'];
 					
-					// Get the table header fields
+					// Get the table fields
 					$fields = $this->modules['Db']->getFields( $controller->name );
-
+					
+					// Get messages
+					$messages = $controller->modules['Message']->getMessages();				  
+					
+					// Get record count
+					$recs = $controller->getRecordCount();
+					
 					if ( !$results )
 						throw new Exception( $controller->name . 'Controller produced no results.' );
+						
+					if ( $this->debug ) $this->setDebugVar( $results );
 				}
 				else
 				{
@@ -183,6 +169,9 @@
 			{
 				if ( is_array( $var ) || is_object( $var ) )
 				{
+				    /*foreach ($GLOBALS as $vname => $val )
+				      if ( $val === $var ) echo $val;
+				    print "<hr />";*/
 					print "<pre>";
 					print_r( $var );
 					print "</pre>";

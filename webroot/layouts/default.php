@@ -11,7 +11,7 @@
 				<hr />
 				<p><?php echo date( 'Y-M-d H:i:s' ); ?></p>
 			</div>
-			<div class="menu panel shadow">
+			<div class="menu panel shadow centered">
 				<?php 
 					$MainMenu = $this->modules['Menu']->getMenu( 'apollo_main' );
 					
@@ -20,11 +20,16 @@
 						foreach ( $MainMenu->items as $item )
 						{
 							if ( $item['hidden'] ) continue;
-							echo "<a class='button' href='" . ROOT_DIR . $item['path'] . "' on.click='this.blur();'><span>" . $item['link_text'] . "</span></a>";
+							echo "<a href='" . ROOT_DIR . $item['path'] . "' on.click='this.blur();'>" . $item['link_text'] . "</a>";
 						}
 					}
 				?>
 			</div>
+			<?php if ( !empty( $messages ) ) { ?>
+			<div class="message panel shadow">
+				
+			</div>
+			<?php } ?>
 			<div class="content panel shadow">
 				<?php echo $layout_content; ?>
 			</div>

@@ -5,14 +5,7 @@
 		
 		public $name = 'Router';
 		public $description = 'Router Module';
-		
-		public $routes = array(
-			'/' => array(
-				'controller' => 'Pages',
-				'function' => 'display',
-				'params' => array('name' => 'home') 
-			)
-		);
+		public $routes = array();
 		
 		// End region
 		
@@ -45,11 +38,31 @@
 		 * Search for a route match
 		 * 
 		 * @param string $url
+		 * @param array $routes
 		 */
-		public function iterate( $url )
+		public function search( $url, $routes )
 		{
-			foreach ( $this->routes as $path => $arr )
+			foreach ( $routes as $path => $arr )
 				if ( $url === $path ) return $arr;
+		}
+		
+		/**
+		 * 
+		 * Url redirection
+		 * 
+		 * @param string $url
+		 */
+		public function redirect( $url )
+		{
+			try
+			{
+				if ( $url !== null )
+					header('Location: ' . $url );
+			}
+			catch( Exception $e )
+			{
+				throw $e;
+			}
 		}
 	}
 ?>

@@ -22,11 +22,52 @@ body {
 	background-color: #706E7A;
 }
 
+/*
+ * Form
+ */
+div.content form {
+	width: 100%;
+	margin: 0 auto;
+}
+
+div.content label {
+	float: left;
+	text-align: right;
+	width: 150px;
+	padding-right: 8px;
+}
+
+label.required {
+	font-weight: bold;
+}
+
+div.content input {
+	width: 250px;
+}
+
+div.content legend {
+	padding: 1em 1em;
+	margin: 0 1em;
+}
+
+div.content fieldset {
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+}
+
+div.form_field {
+	padding: 5px 0;
+}
+
+/*
+ * Table
+ */
 table {
-	/*background: url("/apollo/webroot/images/blurry.jpg") no-repeat scroll 500px 59px transparent;*/
 	margin-left: auto;
 	margin-right: auto;
-	width: 95%;
+	margin-bottom: 5px;
+	width: 100%;
 	border-collapse: collapse;
 }
 
@@ -36,16 +77,6 @@ th {
 
 tr {
 	border-bottom: 1px dotted #000;
-}
-
-tr.trow:hover td {
-	background: none repeat scroll 0 0 transparent;
-	/*cursor: pointer;*/
-}
-
-tr.altrow:hover td {
-	background: none repeat scroll 0 0 transparent;
-	/*cursor: pointer;*/
 }
 
 td {
@@ -62,8 +93,13 @@ div.header p {
 	font-size: .6em;
 }
 
-div.menu {
-	height: 22px;
+div.menu a {
+	font-size: 1.2em;
+	margin: 0 10px;
+}
+
+div.menu a:hover {
+	text-decoration: underline;
 }
 
 div.content h3 {
@@ -72,6 +108,10 @@ div.content h3 {
 
 div.content p {
 	padding: 0 2em;
+}
+
+div.content tr:hover {
+	background: none repeat scroll 0 0 white;
 }
 
 div.row {
@@ -115,6 +155,18 @@ div.error p {
 	padding: 1em;
 }
 
+.centered {
+	text-align: center;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
 .panel {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -124,7 +176,7 @@ div.error p {
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 	padding: 1em;
 }
 
@@ -134,54 +186,6 @@ div.error p {
 	box-shadow: 5px 5px 5px #000;
 }
 
-.trow {
-	/*background-color: #ffffcc;*/
-}
-
 .thead {
-	/*background-color: #CCB4B4;*/
 	font-size: 1.2em;
-}
-
-.altrow {
-	/*background-color: #E4F7DC;*/
-}
-
-/**
- * Menu Buttons
- */
-
-.clear { /* generic container (i.e. div) for floating buttons */
-    overflow: hidden;
-    width: 100%;
-}
-
-a.button {
-    background: transparent url('/apollo/webroot/images/bg_button_a.gif') no-repeat scroll top right;
-    color: #444;
-    display: block;
-    float: left;
-    font: normal 12px arial, sans-serif;
-    height: 24px;
-    margin-right: 15px;
-    padding-right: 18px; /* sliding doors padding */
-    text-decoration: none;
-}
-
-a.button span {
-    background: transparent url('/apollo/webroot/images/bg_button_span.gif') no-repeat;
-    display: block;
-    line-height: 14px;
-    padding: 5px 0 5px 18px;
-}
-
-a.button:active {
-    background-position: bottom right;
-    color: #000;
-    outline: none; /* hide dotted outline in Firefox */
-}
-
-a.button:active span {
-    background-position: bottom left;
-    padding: 6px 0 4px 18px; /* push text down 1px */
 }

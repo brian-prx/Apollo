@@ -11,6 +11,10 @@
 		
 		protected $modules = array();
 		
+		protected $skip_fields = array('id', 'last_login');
+		
+		protected $num_last_results = null;
+		
 		// End region
 		
 		// Region public functions
@@ -32,7 +36,47 @@
 		 */
 		public function add()
 		{
-			return true; // Testing
+			/**
+			 * Return the table fields if not processing a form
+			 */
+			try
+			{
+			    $view_fields = array();
+		    	$i = 0;
+			  
+				if ( empty( $this->form_data ) )
+				{
+					$fields = $this->modules['Db']->getFields( $this->name );
+
+					foreach ( $fields as $field )
+					{
+						if ( in_array( $field, $this->skip_fields ) ) continue;
+						$view_fields[$i]['name'] = $field;
+						$view_fields[$i]['required'] = $this->modules['Db']->isNullAllow( strtolower ( $this->name ), $field );
+						$i++;
+					}
+					return $view_fields;
+				}
+			}
+			catch( Exception $e )
+			{
+				throw $e;
+			}
+			
+			/**
+			 * Insert the record
+			 */
+			try
+			{
+			  if ( !empty( $this->form_data ) )
+			  {
+			    return $this->modules['Db']->insert( strtolower( $this->name ), $this->form_data );
+			  }
+			}
+			catch( Exception $e )
+			{
+			  throw $e;
+			}
 		}
 
 		/**
@@ -48,6 +92,8 @@
 			$sql = 'SELECT * FROM ' . strtolower( $this->name ) . ';';
 
 			$db_results = $this->modules['Db']->query( $sql );
+			
+			$this->num_last_results = mysql_num_rows( $db_results );
 
 			while ( $row = mysql_fetch_assoc( $db_results ) )
 			{
@@ -55,6 +101,30 @@
 			}
 			
 			return $results;
+		}
+		
+		/**
+		 * 
+		 * Delete a record
+		 * 
+		 */
+		public function del( $id )
+		{
+		  $result = $this->modules['Db']->delete( $this->name, $id );
+		  
+		  if ( $result ) $this->modules['Message']->addMessage( $this->name, $this->name . ' ' . $id . ' deleted' );
+		  else $this->modules['Message']->addMessage( $this->name, 'Failed to delete ' . $this->name . ' ' . $id );
+		  return $result;
+		}
+		
+		/**
+		 * 
+		 * Return number of records found from last MySQL statement
+		 * 
+		 */
+		public function getRecordCount()
+		{
+		  return $this->num_last_results;
 		}
 		
 		/**
@@ -80,14 +150,6 @@
 				return $result;
 			}
 			return $this->modules['Db']->update( $this->name, $this->form_data );
-		}
-		
-		/**
-		 * Delete an object
-		 */
-		public function del()
-		{
-			return true;
 		}
 		
 		/**
