@@ -25,6 +25,11 @@ $routes = array(
     'controller' => 'Auth',
     'function' => 'permissions',
     'params' => array()
+  ),
+  'search' => array(
+  	'controller' => 'App',
+  	'function' => 'search',
+  	'params' => array()
   )
 );
 ?>

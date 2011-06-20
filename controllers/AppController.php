@@ -201,6 +201,16 @@
 		  return $this->modules['Message']->getMessages();
 		}
 		
+		/**
+		 * 
+		 * Search
+		 * 
+		 */
+		public function search()
+		{
+		  return true;
+		}
+		
 		// End region
 		
 		// Region private function

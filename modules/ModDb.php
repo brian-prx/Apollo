@@ -182,6 +182,8 @@
 		{
 			$fields = array();
 			
+			if ( $name == 'App' ) return ;
+			
 			try 
 			{
 				$sql = 'SHOW COLUMNS FROM ' . $name;
@@ -206,14 +208,9 @@
 		
 		/**
 		 * 
-		 * Get record count of last query
+		 * Get last inserted record id
 		 * 
 		 */
-		public function getRecordCount()
-		{
-			//return mysql_num_rows( $this->db_link );
-		}
-		
 		public function getLastInsertId()
 		{
 		  if ( $this->last_insert_id ) return $this->last_insert_id;
