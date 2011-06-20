@@ -48,9 +48,15 @@
 			return ( null !== $this->auth_token ) ? true : false;
 		}
 		
-		function getModuleNames()
+		public function getModuleNames()
 		{
 			return parent::getModuleNames();
+		}
+		
+		public function getMethods( $name )
+		{
+		  $methods = get_class_methods( $name );
+		  return $methods;
 		}
 		
 		// End region

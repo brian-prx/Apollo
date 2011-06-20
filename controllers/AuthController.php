@@ -18,9 +18,8 @@
      */
     public function permissions()
     {
-      
-      
-      return true;
+      $c = new UsersController();
+      return get_class_methods( $c );
     }
     
     // End region

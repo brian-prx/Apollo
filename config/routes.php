@@ -21,7 +21,7 @@ $routes = array(
     'function' => 'login',
     'params' => array()
   ),
-  'control_panel' => array(
+  'cpanel' => array(
     'controller' => 'Auth',
     'function' => 'permissions',
     'params' => array()

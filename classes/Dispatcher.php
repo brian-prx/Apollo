@@ -124,7 +124,7 @@
 						throw new Exception( $controller->name . 'Controller produced no results.' );
 				  
 				    // Debugging information
-					if ( $this->debug ) $this->setDebugVar( false );
+					if ( $this->debug ) $this->setDebugVar( $results );
 				}
 				else
 				{
