@@ -12,18 +12,9 @@
 				<p><?php echo date( 'Y-M-d H:i:s' ); ?></p>
 			</div>
 			<div class="menu panel shadow centered">
-				<?php 
-					$MainMenu = $this->modules['Menu']->getMenu( 'apollo_main' );
-					
-					if ( is_object( $MainMenu ) )
-					{
-						foreach ( $MainMenu->items as $item )
-						{
-							if ( $item['hidden'] ) continue;
-							echo "<a href='" . ROOT_DIR . $item['path'] . "' on.click='this.blur();'>" . $item['link_text'] . "</a>";
-						}
-					}
-				?>
+				<a href='<?php echo ROOT_DIR; ?>'>home</a>
+				<a href='<?php echo ROOT_DIR; ?>users'>users</a>
+				<a href='<?php echo ROOT_DIR; ?>groups'>groups</a>
 			</div>
 
 			<?php echo $this->modules['Message']->getMessages(); ?>

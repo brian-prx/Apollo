@@ -26,7 +26,7 @@
 		{
 			$this->url = $url;
 			$this->modules = ModController::loadModules();
-			$this->modules['Menu']->init();
+			//$this->modules['Menu']->init();
 
 			if ( is_object( $this->modules['Db'] ) )
 			{
