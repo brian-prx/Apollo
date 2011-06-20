@@ -115,17 +115,15 @@
 					
 					// Get the table fields
 					$fields = $this->modules['Db']->getFields( $controller->name );
-					
-					// Get messages
-					$messages = $controller->modules['Message']->getMessages();				  
-					
+
 					// Get record count
 					$recs = $controller->getRecordCount();
 					
 					if ( !$results )
 						throw new Exception( $controller->name . 'Controller produced no results.' );
-						
-					if ( $this->debug ) $this->setDebugVar( $results );
+				  
+				    // Debugging information
+					if ( $this->debug ) $this->setDebugVar( $controller );
 				}
 				else
 				{
@@ -142,7 +140,7 @@
 					$layout_content = ob_get_clean();
 				}
 				else 
-					throw new Exception( 'Could not load view file for ' . $this->params['function'] . '.');
+					throw new Exception( strtolower( ROOT_DIR . 'views/' . $controller->name . '/' . $this->params['function'] ) . '.php does not exist. Create this file to fix this problem.' );
 				
 				/**
 				 * Include the layout

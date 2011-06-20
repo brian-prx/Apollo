@@ -16,6 +16,8 @@
 		
 		protected $rec_cnt = null;
 		
+		protected $last_insert_id = null;
+		
 		// End region
 		
 		// Region public functions
@@ -113,15 +115,20 @@
 		  }
 		  
 		  $sql = 'INSERT INTO ' . $table . ' ( ' . substr( $fields, 0, -1 ) . ' ) VALUES (' . substr( $values, 0, -1 ) . ');';
-
-		  $result = $this->query( $sql );
+          try
+          {
+		    $result = $this->query( $sql );
 		  
-		  if ( empty( $result ) ) throw new Exception( 'Could not insert new record into ' . $table . '.' );
+		    if ( empty( $result ) ) throw new Exception( 'Could not insert new record into ' . $table . '.' );
 		  
-		  //while ( $row = mysql_fetch_assoc( $result ) )
-  		  //  $results[] = $row;
-  		    
-  		  return 'Record successfully inserted.';
+		    $this->last_insert_id = mysql_insert_id( $this->db_link );
+          }
+          catch( Exception $e )
+          {
+            throw $e;
+          }
+          
+          return true;
 		}
 		
 		/**
@@ -205,6 +212,12 @@
 		public function getRecordCount()
 		{
 			//return mysql_num_rows( $this->db_link );
+		}
+		
+		public function getLastInsertId()
+		{
+		  if ( $this->last_insert_id ) return $this->last_insert_id;
+		  return false;
 		}
 		
 		/**

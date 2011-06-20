@@ -69,14 +69,16 @@
 			try
 			{
 			  if ( !empty( $this->form_data ) )
-			  {
-			    return $this->modules['Db']->insert( strtolower( $this->name ), $this->form_data );
-			  }
+			    $result = $this->modules['Db']->insert( strtolower( $this->name ), $this->form_data );
+			  if ( $result )
+			    $this->modules['Message']->addMessage( $this->name, $this->name . ' ' . $this->modules['Db']->getLastInsertId() . ' created.' );
 			}
 			catch( Exception $e )
 			{
 			  throw $e;
 			}
+			
+			$this->modules['Router']->redirect( ROOT_DIR . strtolower( $this->name ) );
 		}
 
 		/**
@@ -114,7 +116,8 @@
 		  
 		  if ( $result ) $this->modules['Message']->addMessage( $this->name, $this->name . ' ' . $id . ' deleted' );
 		  else $this->modules['Message']->addMessage( $this->name, 'Failed to delete ' . $this->name . ' ' . $id );
-		  return $result;
+		  
+		  $this->modules['Router']->redirect( ROOT_DIR . strtolower( $this->name ) );
 		}
 		
 		/**
@@ -175,10 +178,6 @@
 			return $this->vars[$name];
 		}
 		
-		// End region
-		
-		// Region private function
-		
 		/**
 		 * 
 		 * Set data retrieved from form
@@ -189,6 +188,21 @@
 		{
 			$this->form_data = $data;
 		}
+		/**
+		 * 
+		 * Get alert messages for controller
+		 * 
+		 */
+		public function getMessages()
+		{
+		  return $this->modules['Message']->getMessages();
+		}
+		
+		// End region
+		
+		// Region private function
+		
+
 		
 		// End region
 	}

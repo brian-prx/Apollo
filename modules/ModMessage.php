@@ -7,8 +7,6 @@
     
     public $description = 'Message Module';
     
-    public $messages = array();
-    
     // End region
     
     // Region public functions
@@ -22,7 +20,7 @@
      */
     public function addMessage( $name, $message )
     {
-      $this->messages[$name] = $message;
+      $_SESSION['apollo_messages'][$name] = $message;
     }
     
     /**
@@ -32,7 +30,22 @@
      */
     public function getMessages()
     {
-      return $this->messages;
+      $html = '';
+      
+      if ( !empty( $_SESSION['apollo_messages'] ))
+      {
+        $messages = $_SESSION['apollo_messages'];
+        unset( $_SESSION['apollo_messages'] );
+        
+        $html = "<div class='message panel shadow'>";
+        
+        foreach ( $messages as $message )
+          $html .= "<p>{$message}</li>";
+        
+        $html .= "</div>";
+      }
+        
+      return $html;
     }
     
     /**
@@ -43,7 +56,7 @@
      */
     public function getMessage( $name )
     {
-      return $this->messages[$name];
+      return $_SESSION['apollo_messages'][$name];
     }
     
     // End region

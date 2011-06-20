@@ -143,6 +143,14 @@ div.debugger p {
 	
 }
 
+div.message {
+	background-color: #ffff88;
+}
+
+div.message h2 {
+	color: #ff3333;
+}
+
 div.error {
 	background-color: #ffff88;
 }

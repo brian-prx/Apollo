@@ -42,8 +42,17 @@
 		 */
 		public function search( $url, $routes )
 		{
-			foreach ( $routes as $path => $arr )
-				if ( $url === $path ) return $arr;
+		  try
+		  {
+		    foreach ( $routes as $path => $arr )
+			  if ( $url === $path ) return $arr;
+				
+			return false;
+		  }
+		  catch( Exception $e )
+		  {
+		    
+		  }
 		}
 		
 		/**
@@ -57,7 +66,7 @@
 			try
 			{
 				if ( $url !== null )
-					header('Location: ' . $url );
+					header( 'Location: ' . $url, 302 );
 			}
 			catch( Exception $e )
 			{

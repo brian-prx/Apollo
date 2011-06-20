@@ -25,11 +25,9 @@
 					}
 				?>
 			</div>
-			<?php if ( !empty( $messages ) ) { ?>
-			<div class="message panel shadow">
-				
-			</div>
-			<?php } ?>
+
+			<?php echo $this->modules['Message']->getMessages(); ?>
+
 			<div class="content panel shadow">
 				<?php echo $layout_content; ?>
 			</div>
