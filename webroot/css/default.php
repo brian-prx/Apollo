@@ -39,6 +39,7 @@ div.content label {
 
 label.required {
 	font-weight: bold;
+	color: #E85A5A;
 }
 
 div.content input {

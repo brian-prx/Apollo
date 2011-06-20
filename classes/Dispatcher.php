@@ -5,6 +5,7 @@
 	
 		public $debug = true;
 		public $auth_flag = false;
+		
 		private $debug_vars = array();
 		private $modules = array();
 		private $server = null;
@@ -123,7 +124,7 @@
 						throw new Exception( $controller->name . 'Controller produced no results.' );
 				  
 				    // Debugging information
-					if ( $this->debug ) $this->setDebugVar( $controller );
+					if ( $this->debug ) $this->setDebugVar( false );
 				}
 				else
 				{

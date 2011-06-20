@@ -242,17 +242,17 @@
 		
 		/**
 		 * 
-		 * Check if field is null allowed
+		 * Check if field is required
 		 * 
 		 * @param string $name
 		 */
-		public function isNullAllow( $table, $name )
+		public function isRequired( $table, $name )
 		{
 		  $fields = $this->describeTable( $table );
 
 		  foreach ( $fields as $field ) {
 		    if ( $field['Field'] == $name )
-		      return ( $field['Null'] == 'NO' ) ? false : true;
+		      return ( $field['Null'] == 'NO' ) ? true : false;
 		  }
 		}
 	}

@@ -5,7 +5,7 @@
 	<legend>Personal Information</legend>
 	<?php foreach ( $results as $field ) { ?>
 		<div class='form_field'>
-		<label for='<?php echo $field['name']; ?>' class='<?php echo ( $field['required'] ) ? '' : 'required'; ?>'><?php echo $field['name']; ?></label>
+		<label for='<?php echo $field['name']; ?>' class='<?php echo ( $field['required'] ) ? 'required' : ''; ?>'><?php echo $field['name']; ?></label>
 		<input type='text' name='<?php echo $field['name']; ?>' id='<?php echo $field['name']; ?>' />
 		</div>
 	<?php } ?>

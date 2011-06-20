@@ -36,27 +36,25 @@
 		 */
 		public function add()
 		{
+			$view_fields = array();
+		    $i = 0;
+			$fields = $this->modules['Db']->getFields( $this->name );
+
+			foreach ( $fields as $field )
+			{
+				if ( in_array( $field, $this->skip_fields ) ) continue;
+				$view_fields[$i]['name'] = $field;
+				$view_fields[$i]['required'] = $this->modules['Db']->isRequired( strtolower ( $this->name ), $field );
+				$i++;
+			}
+			
 			/**
 			 * Return the table fields if not processing a form
 			 */
 			try
 			{
-			    $view_fields = array();
-		    	$i = 0;
-			  
 				if ( empty( $this->form_data ) )
-				{
-					$fields = $this->modules['Db']->getFields( $this->name );
-
-					foreach ( $fields as $field )
-					{
-						if ( in_array( $field, $this->skip_fields ) ) continue;
-						$view_fields[$i]['name'] = $field;
-						$view_fields[$i]['required'] = $this->modules['Db']->isNullAllow( strtolower ( $this->name ), $field );
-						$i++;
-					}
 					return $view_fields;
-				}
 			}
 			catch( Exception $e )
 			{
@@ -69,7 +67,12 @@
 			try
 			{
 			  if ( !empty( $this->form_data ) )
-			    $result = $this->modules['Db']->insert( strtolower( $this->name ), $this->form_data );
+			  {
+			  	foreach ( $view_fields as $field )
+			  	  if ( $field['required'] && empty( $this->form_data[$field['name']] ) ) throw new Exception( $this->name . ' ' . $field['name'] . ' is required.' );
+
+			  	$result = $this->modules['Db']->insert( strtolower( $this->name ), $this->form_data );
+			  }
 			  if ( $result )
 			    $this->modules['Message']->addMessage( $this->name, $this->name . ' ' . $this->modules['Db']->getLastInsertId() . ' created.' );
 			}
