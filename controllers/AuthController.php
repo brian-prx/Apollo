@@ -18,8 +18,7 @@
      */
     public function permissions()
     {
-      $c = new UsersController();
-      return get_class_methods( $c );
+      return get_class_vars( 'UsersController' );
     }
     
     // End region

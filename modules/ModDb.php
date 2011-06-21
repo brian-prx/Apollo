@@ -245,11 +245,50 @@
 		 */
 		public function isRequired( $table, $name )
 		{
-		  $fields = $this->describeTable( $table );
-
-		  foreach ( $fields as $field ) {
-		    if ( $field['Field'] == $name )
-		      return ( $field['Null'] == 'NO' ) ? true : false;
+		  try
+		  {
+            $fields = $this->describeTable( $table );
+    
+    		foreach ( $fields as $field ) {
+    		  if ( $field['Field'] == $name )
+    		    return ( $field['Null'] == 'NO' ) ? true : false;
+    		}
+		  }
+		  catch( Exception $e )
+		  {
+		    throw $e;
+		  }
+		}
+		
+		/**
+		 * 
+		 * Get user
+		 * 
+		 * @param string $name
+		 */
+		public function getUser( $name )
+		{
+		  $results = null;
+		  
+		  try
+		  {
+		    $sql = "SELECT * FROM users WHERE name='{$name}';";
+		    
+		    $this->db_result = $this->query( $sql );
+		    
+		    if ( !empty( $this->db_result ) )
+		    {
+		      while ( $row = mysql_fetch_assoc( $this->db_result ) )
+		        $results = $row;
+		        
+		      return $results;
+		    }
+		    
+		    // throw new Exception( 'User ' . $name . ' not found.' );
+		  }
+		  catch( Exception $e )
+		  {
+		    throw $e;
 		  }
 		}
 	}

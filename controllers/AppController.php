@@ -5,9 +5,9 @@
 		
 		public $name = 'App';
 		
-		private $form_data = array();
+		protected $form_data = array();
 		
-		private $vars = array();
+		protected  $vars = array();
 		
 		protected $modules = array();
 		

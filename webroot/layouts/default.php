@@ -13,10 +13,7 @@
 			</div>
 			<div class="menu panel shadow centered">
 				<a href='<?php echo ROOT_DIR; ?>'>home</a>
-				<a href='<?php echo ROOT_DIR; ?>users'>users</a>
-				<a href='<?php echo ROOT_DIR; ?>groups'>groups</a>
-				<a href='<?php echo ROOT_DIR; ?>search'>search</a>
-				<a href='<?php echo ROOT_DIR; ?>cpanel'>control panel</a>
+				<a href='<?php echo ROOT_DIR; ?>login'>login</a>
 			</div>
 
 			<?php echo $this->modules['Message']->getMessages(); ?>
