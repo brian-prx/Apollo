@@ -65,8 +65,10 @@
 		{
 			try
 			{
-				if ( $url !== null )
-					header( 'Location: ' . $url, 302 );
+			  if ( false === strstr( $url, ROOT_DIR ) ) $url = ROOT_DIR . $url;
+			  
+			  if ( $url !== null )
+			    header( 'Location: ' . $url, 302 );
 			}
 			catch( Exception $e )
 			{

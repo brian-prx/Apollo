@@ -18,7 +18,8 @@
 		 */
 		public function __construct()
 		{
-			$this->afterConstruct();
+          if ( !empty( $_SESSION['auth_token'] ) )
+            $this->auth_token = $_SESSION['auth_token'];
 		}
 		
 		/**
@@ -28,7 +29,7 @@
 		 */
 		public function __destruct()
 		{
-			
+		  
 		}
 		
 		/**
@@ -43,41 +44,68 @@
 		
 		/**
 		 * 
-		 * Check if a user is authenticated
+		 * Process authentication request
 		 * 
+		 * @param array $data
 		 */
-		public function checkAuth()
+		public function authenticate( $data )
 		{
-		  return ( null !== $this->auth_token ) ? true : false;
+		  try
+		  {
+            if ( !empty( $data ) )
+            {
+              $user = $this->findUser( $data['username'] );
+              
+              if ( sha1( $data['password'] ) == $user['pass'] )
+              {
+                $_SESSION['auth_token'] = sha1( $data['username'] . $data['password'] . date( 'YmdHis' ) );
+                return true;
+              }
+            }
+		  }
+		  catch( Exception $e )
+		  {
+		    throw $e;
+		  }
+		  
+		  return false;
 		}
 		
 		/**
 		 * 
-		 * Process authentication request
+		 * Find a user record
 		 * 
-		 * @param array $user
-		 * @param string $password
+		 * @param string $name
+		 * @throws Exception
 		 */
-		public function authenticate( $user, $password )
+		public function findUser( $name )
 		{
-		  if ( !empty( $user ) && !empty( $password ) )
+		  try
 		  {
-		    if ( $user['pass'] == sha1( $password ) )
-		    {
-		      $this->auth_token = sha1( $user . $password . date('YmdHis') );
-		      return true;
-		    }
+		    $sql = "SELECT * FROM users WHERE name='{$name}';";
+		    $result = ModDb::rawQuery( $sql );
+		    
+		    if ( !empty( $result ))
+		      $user = mysql_fetch_assoc( $result );
+		    else
+		      throw new Exception( 'Could not find user ' . $name . '.' );
 		  }
-		  else throw new Exception( 'Could not authenticate user ' . $user['name'] . '. Invalid password.' );
+		  catch( Exception $e )
+		  {
+		    throw $e;
+		  }
+		  
+		  return $user;
 		}
 		
-		// End region
-		
-		// Region private methods
-		
-		private function afterConstruct()
+		/**
+		 * 
+		 * End authentication session
+		 * 
+		 */
+		public function destroy()
 		{
-		  if ( isset( $_SESSION['auth_token'] ) ) $this->auth_token = $_SESSION['auth_token'];
+		  unset( $_SESSION['auth_token'] );
 		}
 		
 		// End region

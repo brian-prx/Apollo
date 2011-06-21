@@ -7,7 +7,7 @@
 		public $description = 'Database module';
 	
 		const db_host = 'localhost';
-		const db_name = '';
+		const db_name = 'apollo';
 		const db_user = 'root';
 		const db_pass = null;
 		
@@ -85,8 +85,8 @@
 			
 			if ( !$tmp_db_conn ) throw new Exception( 'Could not establishing MySQL connection to ' . ModDb::db_host . '.' );
 			
-			if ( false === mysql_select_db( 'apollo' ) )
-				throw new Exception( 'Could not select db: apollo.' );
+			if ( false === mysql_select_db( ModDb::db_name ) )
+				throw new Exception( 'Could not select database apollo.' );
 			
 			$results = mysql_query( $sql );	
 			
@@ -162,6 +162,13 @@
 			return $sql;
 		}
 		
+		/**
+		 * 
+		 * Delete a record
+		 * 
+		 * @param string $name
+		 * @param int $id
+		 */
 		public function delete( $name, $id )
 		{
 		  $sql = 'DELETE FROM ' . $name . ' WHERE id=' . $id;
@@ -253,38 +260,6 @@
     		  if ( $field['Field'] == $name )
     		    return ( $field['Null'] == 'NO' ) ? true : false;
     		}
-		  }
-		  catch( Exception $e )
-		  {
-		    throw $e;
-		  }
-		}
-		
-		/**
-		 * 
-		 * Get user
-		 * 
-		 * @param string $name
-		 */
-		public function getUser( $name )
-		{
-		  $results = null;
-		  
-		  try
-		  {
-		    $sql = "SELECT * FROM users WHERE name='{$name}';";
-		    
-		    $this->db_result = $this->query( $sql );
-		    
-		    if ( !empty( $this->db_result ) )
-		    {
-		      while ( $row = mysql_fetch_assoc( $this->db_result ) )
-		        $results = $row;
-		        
-		      return $results;
-		    }
-		    
-		    // throw new Exception( 'User ' . $name . ' not found.' );
 		  }
 		  catch( Exception $e )
 		  {

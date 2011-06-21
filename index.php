@@ -12,8 +12,8 @@
 	{
 		$layout_title = 'Apollo Error';
 		$layout_error_msg = $e->getMessage();
-		if ( file_exists( 'webroot/layouts/application_error.php' ) )
-			include 'webroot/layouts/application_error.php';
+		if ( file_exists( 'webroot/layouts/error.php' ) )
+			include 'webroot/layouts/error.php';
 		else
 			echo $e->getMessage();
 	}

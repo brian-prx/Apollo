@@ -29,6 +29,11 @@
 			$this->modules = ModController::loadModules();
 		}
 		
+		public function getAuthToken()
+		{
+		  return $this->modules['Auth']->getAuthToken();
+		}
+		
 		/**
 		 * 
 		 * Add a new object
@@ -210,12 +215,6 @@
 		{
 		  return true;
 		}
-		
-		// End region
-		
-		// Region private function
-		
-
 		
 		// End region
 	}

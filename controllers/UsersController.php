@@ -5,25 +5,61 @@
 		
 		public $name = 'Users';
 		
+		public $description = 'User Controller';
+		
 		// End region
 		
 		// Region public functions
 		
+		/**
+		 * 
+		 * User's home page
+		 * 
+		 */
+		public function home()
+		{
+		  return true;
+		}
+		
+		/**
+		 * 
+		 * User login
+		 * 
+		 */
 		public function login()
 		{
-		  if ( !empty( $this->form_data ) )
+		  try
 		  {
-		    $user = $this->modules['Db']->getUser( $this->form_data['username'] );
-		    if ( !empty( $user ) )
-		    {
-		      $result = $this->modules['Auth']->authenticate( $user, $this->form_data['password'] );
- 		      if ( $result )
-  		        $this->modules['Message']->addMessage( 'AuthSuccess', '' );
-  		         
-  		          
-		    }
-		    else throw new Exception( 'User ' . $this->form_data['username'] . ' not found.' );
-		  }
+            if ( $token = $this->modules['Auth']->getAuthtoken() )
+            {
+              $this->modules['Message']->addMessage( 'AuthMsg', 'You are already logged in.' );
+              $this->modules['Router']->redirect( ROOT_DIR . 'users/home' );
+            }
+            
+            if ( !empty( $this->form_data ) )
+            {
+              if ( $this->modules['Auth']->authenticate( $this->form_data ) )
+                $this->modules['Message']->addMessage( 'AuthMsg', 'Login successful.' );
+              else
+                $this->modules['Message']->addMessage( 'AuthMsg', 'Login failed.' );
+            }
+          }
+          catch( Exception $e )
+          {
+            throw $e;
+          }
+
+		  return true;
+		}
+		
+		/**
+		 * 
+		 * User logout
+		 * 
+		 */
+		public function logout()
+		{
+		  $this->modules['Auth']->destroy();
 		  return true;
 		}
 		

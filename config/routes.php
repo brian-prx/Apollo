@@ -21,6 +21,11 @@ $routes = array(
     'function' => 'login',
     'params' => array()
   ),
+  'logout' => array(
+    'controller' => 'Users',
+    'function' => 'logout',
+    'params' => array()
+  ),
   'cpanel' => array(
     'controller' => 'Auth',
     'function' => 'permissions',

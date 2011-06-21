@@ -65,13 +65,13 @@
 		 */
 		public function beforeRender()
 		{
-			if ( is_object( $this->modules['Auth'] ) )
-			{
-				if ( false === $this->modules['Auth']->checkAuth() )
-				{
-					// $this->redirect('/auth/login');
-				}
-			}
+          if ( is_object( $this->modules['Auth'] ) )
+          {
+            //if ( null === $this->modules['Auth']->getAuthToken() )
+              // $this->modules['Router']->redirect('login');
+            //else
+            //  $this->setLayout( 'user' );
+          }
 		}
 
 		/**
@@ -100,31 +100,31 @@
 				// Load controller
 				$controller = $this->__getController();
 				
+				
+				
 				if ( is_object( $controller ) )
 				{
-					// Load form data
-					if ( !empty( $_POST ) ) $controller->setFormData( $_POST );
-					
 					// Is a function set? If not, set to index()
 					$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
+					
+					// Load form data
+					if ( !empty( $_POST ) ) {
+					  // Get the table fields
+					  $fields = $this->modules['Db']->getFields( $controller->name );
+					  $controller->setFormData( $_POST );
+					}
 					
 					// Execute the controller's function
 					$results = $controller->{$this->params['function']}( $this->params['params'] );
 					
-					if ( isset( $results['content'] ) ) $layout_title = base64_decode( $results['content'] );
-					if ( isset( $results['title'] ) ) $layout_title = $results['title'];
-					
-					// Get the table fields
-					$fields = $this->modules['Db']->getFields( $controller->name );
-
 					// Get record count
 					$recs = $controller->getRecordCount();
 					
 					if ( !$results )
-						throw new Exception( $controller->name . 'Controller produced no results.' );
+						throw new Exception( $controller->name . 'Controller ' . $this->params['function'] . ' produced no results.' );
 				  
 				    // Debugging information
-					if ( $this->debug ) $this->setDebugVar( $results );
+					if ( $this->debug ) $this->setDebugVar( $controller->getAuthToken() );
 				}
 				else
 				{
