@@ -13,7 +13,6 @@
 		</div>
 		<div class="menu panel shadow centered">
 			<a href="<?php echo ROOT_DIR; ?>" onclick="this.blur();">home</a>
-			<a href="<?php echo ROOT_DIR; ?>logout" onclick="this.blur();">logout</a>
 		</div>
 		<div class="error panel shadow">
 			<h2>Application Error</h2>

@@ -27,15 +27,7 @@
 		{
 			$this->url = $url;
 			$this->modules = ModController::loadModules();
-			//$this->modules['Menu']->init();
-
-			if ( is_object( $this->modules['Db'] ) )
-			{
-				
-			}
-			
-			$this->baseUrl();
-			$this->parseUrl();
+			$this->params = $this->modules['Router']->parseUrl( $this->url );
 		}
 		
 		/**
@@ -65,13 +57,7 @@
 		 */
 		public function beforeRender()
 		{
-          if ( is_object( $this->modules['Auth'] ) )
-          {
-            //if ( null === $this->modules['Auth']->getAuthToken() )
-              // $this->modules['Router']->redirect('login');
-            //else
-            //  $this->setLayout( 'user' );
-          }
+
 		}
 
 		/**
@@ -86,29 +72,27 @@
 			
 			include 'config/routes.php';
 			
-			if ( $route = $this->modules['Router']->search( $this->url, $routes ) ) {
+			if ( $route = $this->modules['Router']->search( $this->modules['Router']->getUrl(), $routes ) ) {
 				$this->params['controller'] = $route['controller'] . 'Controller';
 				$this->params['function'] = $route['function'];
 				$this->params['params'] = $route['params'];
 			}
 			
-			$layout_title = 'Default Title';
-			$layout_content = 'Default Content';
+			// Debugging information
+			//if ( $this->debug ) $this->setDebugVar( $this->params );
 			
 			try
 			{
 				// Load controller
 				$controller = $this->__getController();
-				
-				
-				
+
 				if ( is_object( $controller ) )
 				{
 					// Is a function set? If not, set to index()
 					$this->params['function'] = ( empty( $this->params['function'] ) ) ? 'index' : $this->params['function'];
 					
 					// Load form data
-					if ( !empty( $_POST ) ) {
+					if ( !empty( $_POST ) || $this->params['function'] == 'index' ) {
 					  // Get the table fields
 					  $fields = $this->modules['Db']->getFields( $controller->name );
 					  $controller->setFormData( $_POST );
@@ -124,11 +108,14 @@
 						throw new Exception( $controller->name . 'Controller ' . $this->params['function'] . ' produced no results.' );
 				  
 				    // Debugging information
-					if ( $this->debug ) $this->setDebugVar( $controller->getAuthToken() );
+					if ( $this->debug ) $this->setDebugVar( $this->params );
+					
+					// Layout variables
+					$layout_title = $controller->name . ' ' . $this->params['function'];
 				}
 				else
 				{
-					throw new Exception( 'Error loading ' . $this->params['controller'] . 'Controller.' );
+					throw new Exception( 'Error loading ' . $this->params['controller'] );
 				}
 				
 				/**
@@ -196,36 +183,7 @@
 		// End region
 		
 		// Region private methods
-		
-		/**
-		 * 
-		 * Parse a url into it's base components
-		 * 
-		 */
-		private function parseUrl()
-		{
-			$url_comp = explode( '/' , $this->url );
-			$this->params['controller'] = ( empty( $url_comp[0] ) ) ? '' : ucfirst( $url_comp[0] ) . 'Controller'; 
-			$this->params['function'] = ( empty( $url_comp[1] ) ) ? '' : $url_comp[1];
-			$this->params['params'] = ( empty( $url_comp[2] ) ) ? array() : $url_comp[2];
-		}
 
-		/**
-		 * 
-		 * Determine the base url the application runs in
-		 * 
-		 * @throws Exception
-		 */
-		private function baseUrl()
-		{
-			if ( ROOT_DIR )
-				$this->url = str_replace( strtolower( ROOT_DIR ), '', strtolower( $this->url ) );
-			else
-				throw new Exception( 'ROOT_DIR is not defined. Set in config/core.php.' );
-				
-			if ( empty( $this->url ) ) $this->url = '/';
-		}
-		
 		/**
 		 * 
 		 * Dynamic controller load

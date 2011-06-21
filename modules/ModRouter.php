@@ -6,6 +6,7 @@
 		public $name = 'Router';
 		public $description = 'Router Module';
 		public $routes = array();
+		private $url = null;
 		
 		// End region
 		
@@ -75,5 +76,55 @@
 				throw $e;
 			}
 		}
+		
+		/**
+		 * 
+		 * Parse a url
+		 * 
+		 * @param mixed $url
+		 */
+		public function parseUrl( $url )
+		{
+		  $params = array();
+		  
+		  try
+		  {
+            if ( is_array( $url ) )
+            {
+              // Do something...
+            }
+            else
+            {
+              // Strip ROOT_DIR
+              if ( ROOT_DIR )
+                $this->url = str_replace( ROOT_DIR , '/', $url );
+              else
+				throw new Exception( 'ROOT_DIR is not defined. Set in config/core.php.' );
+				
+			  $components = explode( '/' , $this->url );
+              $params['controller'] = ( empty( $components[1] ) ) ? '' : ucfirst( $components[0] ); 
+              $params['function'] = ( empty( $components[2] ) ) ? '' : $components[1];
+              $params['params'] = ( empty( $components[3] ) ) ? array() : $components[2];
+            }
+		  }
+		  catch( Exception $e )
+		  {
+		    throw $e;
+		  }
+		  
+		  return $params;
+		}
+		
+		/**
+		 * 
+		 * Get the parsed url
+		 * 
+		 */
+		public function getUrl()
+		{
+		  return $this->url;
+		}
+		
+		// End region
 	}
 ?>
